@@ -1,9 +1,11 @@
 const express = require("express");
 const router = express.Router();
+const authToken = require("../middleware/authToken");
 const {
-  addNewPost,
-  getAllTweets,
   getTweet,
+  getUserTweets,
+  getAllTweets,
+  addNewTweet,
   updateTweet,
   deleteTweet,
   handleLike,
@@ -11,12 +13,13 @@ const {
 } = require("../controllers/tweet/tweetController");
 
 router
-  .get("/tweet", getAllTweets)
-  .get("/tweet/:id", getTweet)
-  .post("/tweet", addNewPost)
-  .put("/tweet/:id", updateTweet)
-  .delete("/tweet/:id", deleteTweet)
-  .patch("/tweet/like/:id", handleLike)
-  .patch("/tweet/retweet/:id", handlRetweet);
+  .get("/tweet", authToken, getAllTweets)
+  .get("/tweet/:id", authToken, getTweet)
+  .get("/tweet/user/:id", authToken, getUserTweets)
+  .post("/tweet", authToken, addNewTweet)
+  .put("/tweet/:id", authToken, updateTweet)
+  .delete("/tweet/:id", authToken, deleteTweet)
+  .put("/tweet/like/:id", authToken, handleLike)
+  .put("/tweet/retweet/:id", authToken, handlRetweet);
 
 module.exports = router;

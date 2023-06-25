@@ -4,7 +4,6 @@ const { validateUser } = require("../../utils/validateUser");
 
 const handleNewUser = async (req, res) => {
   const { username, password, name, email } = req.body;
-  console.log(req.body);
 
   //validate user input
   const { error } = validateUser(req.body);

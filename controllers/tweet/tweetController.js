@@ -2,22 +2,24 @@ const { validateTweet } = require("../../utils/validateTweet");
 const Tweet = require("../../model/Tweet");
 const User = require("../../model/User");
 
-//api endpoint for posting a tweet
-const addNewPost = async (req, res) => {
-  const { tweet, userId } = req.body;
-  console.log(req.body);
-
-  //validate tweet
-  const { error } = validateTweet(req.body);
-  if (error) return res.status(400).json({ message: error.message });
+//api endpoint for retreievig a single tweet by tweetId
+const getTweet = async (req, res) => {
+  const tweetId = req.params.id;
 
   try {
-    const newTweet = await Tweet.create({
-      tweet: tweet,
-      createdBy: userId,
-    });
+    const tweet = await Tweet.find({ _id: tweetId, isDeleted: false });
+    return res.status(201).json(tweet);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
 
-    return res.status(200).json(newTweet);
+//api endpoint to retrieving  tweets by userId
+const getUserTweets = async (req, res) => {
+  const userId = req.user.id;
+  try {
+    const tweets = await Tweet.find({ createdBy: userId, isDeleted: false });
+    return res.status(201).json(tweets);
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
@@ -33,13 +35,21 @@ const getAllTweets = async (req, res) => {
   }
 };
 
-//api endpoint for retreievig a single tweet
-const getTweet = async (req, res) => {
-  const tweetId = req.params.id;
+//api endpoint for posting a tweet
+const addNewTweet = async (req, res) => {
+  const { tweet, userId } = req.body;
+
+  //validate tweet
+  const { error } = validateTweet(req.body);
+  if (error) return res.status(400).json({ message: error.message });
 
   try {
-    const tweet = await Tweet.find({ _id: tweetId, isDeleted: false });
-    return res.status(201).json(tweet);
+    const newTweet = await Tweet.create({
+      tweet: tweet,
+      createdBy: userId,
+    });
+
+    return res.status(200).json(newTweet);
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
@@ -75,10 +85,10 @@ const deleteTweet = async (req, res) => {
 };
 
 //api endpoint to handle like and unlike
-
 const handleLike = async (req, res) => {
   const tweetId = req.params.id;
-  const userId = req.body.userId;
+  const userId = req.user.id;
+
   try {
     const tweet = await Tweet.findById(tweetId);
 
@@ -97,12 +107,12 @@ const handleLike = async (req, res) => {
 //api endpoint for handling retweet
 const handlRetweet = async (req, res) => {
   const tweetId = req.params.id;
-  const userId = req.body.userId;
+  const userId = req.user.id;
 
   try {
     const tweet = await Tweet.findById(tweetId);
 
-    if (tweet.retweets.indexOf(userId) != -1) tweet.retweets.push(userId);
+    if (tweet.retweets.indexOf(userId) == -1) tweet.retweets.push(userId);
     const updatedTweet = await tweet.save();
 
     return res.status(200).json(updatedTweet);
@@ -112,9 +122,10 @@ const handlRetweet = async (req, res) => {
 };
 
 module.exports = {
-  addNewPost,
-  getAllTweets,
   getTweet,
+  getUserTweets,
+  getAllTweets,
+  addNewTweet,
   updateTweet,
   deleteTweet,
   handleLike,

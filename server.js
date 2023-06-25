@@ -1,13 +1,14 @@
 require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
+const jwt = require("jsonwebtoken");
 const userRoutes = require("./routes/user");
 const tweetRoutes = require("./routes/tweet");
 
 const app = express();
 
 app.use(express.json());
-app.use(express.urlencoded())
+app.use(express.urlencoded());
 
 //routes
 app.use(userRoutes);
