@@ -11,4 +11,4 @@ const validateUser = (user) => {
   return Schema.validate(user);
 };
 
-module.exports = { validateUser };
+module.exports = validateUser;

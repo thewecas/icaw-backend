@@ -36,12 +36,6 @@ const handleLogin = async (req, res) => {
     //create access token
     const accessToken = generateAccessToken(user);
 
-    // //create refresh token
-    // const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET);
-
-    // existingUser.refreshToken = refreshToken;
-    // const updatedUser = await existingUser.save();
-
     //store accessToken in the cookie
     res.cookie("jwt", accessToken, {
       httpOnly: true,
@@ -61,6 +55,4 @@ const handleLogin = async (req, res) => {
     });
 };
 
-module.exports = {
-  handleLogin,
-};
+module.exports = handleLogin;

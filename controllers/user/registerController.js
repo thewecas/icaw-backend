@@ -1,6 +1,6 @@
 const User = require("../../model/User");
 const bcrypt = require("bcryptjs");
-const { validateUser } = require("../../utils/validateUser");
+const validateUser = require("../../utils/validateUser");
 
 const handleNewUser = async (req, res) => {
   const { username, password, name, email } = req.body;
@@ -38,4 +38,4 @@ const handleNewUser = async (req, res) => {
   }
 };
 
-module.exports = { handleNewUser };
+module.exports = handleNewUser;
