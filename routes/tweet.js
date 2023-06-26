@@ -15,7 +15,7 @@ const {
 router
   .get("/tweet", authToken, getAllTweets)
   .get("/tweet/:id", authToken, getTweet)
-  .get("/tweet/user/:id", authToken, getUserTweets)
+  .get("/tweet/user", authToken, getUserTweets)
   .post("/tweet", authToken, addNewTweet)
   .put("/tweet/:id", authToken, updateTweet)
   .delete("/tweet/:id", authToken, deleteTweet)

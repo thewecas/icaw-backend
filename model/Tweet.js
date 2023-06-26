@@ -7,20 +7,17 @@ const Schema = new mongoose.Schema(
       required: true,
     },
     createdBy: {
-      type: mongoose.Types.ObjectId,
+      type: String,
       required: true,
-      unique: true,
     },
     likes: [
       {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
+        type: String,
       },
     ],
     retweets: [
       {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
+        type: String,
       },
     ],
     isDeleted: {

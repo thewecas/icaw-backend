@@ -19,9 +19,9 @@ const getUserTweets = async (req, res) => {
   const userId = req.user.id;
   try {
     const tweets = await Tweet.find({ createdBy: userId, isDeleted: false });
-    return res.status(201).json(tweets);
+    return res.status(200).json(tweets);
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    return res.status(500).json({ message: error.message.toString() });
   }
 };
 
@@ -37,7 +37,8 @@ const getAllTweets = async (req, res) => {
 
 //api endpoint for posting a tweet
 const addNewTweet = async (req, res) => {
-  const { tweet, userId } = req.body;
+  const { tweet } = req.body;
+  const userId = req.user.id;
 
   //validate tweet
   const { error } = validateTweet(req.body);
@@ -58,10 +59,11 @@ const addNewTweet = async (req, res) => {
 //api endpoint for updating the tweet
 const updateTweet = async (req, res) => {
   const tweetId = req.params.id;
+  const newTweet = req.body.tweet;
 
   try {
     const tweet = await Tweet.findById(tweetId);
-    tweet.tweet = req.body.tweet;
+    tweet.tweet = newTweet;
 
     const updatedTweet = await tweet.save();
     return res.status(200).json(updateTweet);
@@ -112,6 +114,9 @@ const handlRetweet = async (req, res) => {
   try {
     const tweet = await Tweet.findById(tweetId);
 
+    //owner cannot retweet
+    if (tweet.createdBy == userId)
+      return res.status(400).json({ message: "owner cannot retweet" });
     if (tweet.retweets.indexOf(userId) == -1) tweet.retweets.push(userId);
     const updatedTweet = await tweet.save();
 
