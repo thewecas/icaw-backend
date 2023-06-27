@@ -4,25 +4,19 @@ const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const userRoutes = require("./routes/user");
 const tweetRoutes = require("./routes/tweet");
-
+const connectDB = require("./utils/dbConnection");
+const passport = require("passport");
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded());
+app.use(passport.initialize());
 
 //routes
 app.use(userRoutes);
 app.use(tweetRoutes);
 
-mongoose.connect(process.env.DATABASE_URL, {
-  useUnifiedTopology: true,
-  useNewUrlParser: true,
-});
-
-const db = mongoose.connection
-  .on("error", (err) => console.error(err))
-  .once("open", () => console.log("Conncetd to db"));
-
+connectDB();
 const port = process.env.PORT || 5000;
 
 app.listen(port, () => console.log(`Listening to port ${port}`));

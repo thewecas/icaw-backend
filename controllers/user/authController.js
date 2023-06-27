@@ -13,19 +13,27 @@ const handleLogin = async (req, res) => {
       message: "Username and password are required",
     });
 
-  //check if user exist
-  const existingUser = await User.findOne({
-    username: username,
-    isDeleted: false,
-  });
-  if (!existingUser)
-    return res.status(404).json({
-      message: "Username not found",
+  try {
+    //check if user exist
+    const existingUser = await User.findOne({
+      username: username,
+      isDeleted: false,
     });
 
-  //evaluate password
-  const pwdMatch = bcrypt.compareSync(password, existingUser.password);
-  if (pwdMatch) {
+    if (!existingUser)
+      return res.status(404).json({
+        message: "Username not found",
+      });
+
+    //evaluate password
+    const pwdMatch = bcrypt.compareSync(password, existingUser.password);
+
+    if (!pwdMatch) {
+      return res.status(401).json({
+        message: "Incorrect password",
+      });
+    }
+
     //sign jwt
     const user = {
       id: existingUser.id,
@@ -47,12 +55,10 @@ const handleLogin = async (req, res) => {
     return res.status(200).json({
       ...user,
       accessToken: accessToken,
-      // refreshToken: refreshToken,
     });
-  } else
-    return res.status(401).json({
-      message: "Incorrect password",
-    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
 module.exports = handleLogin;

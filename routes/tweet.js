@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const authToken = require("../middleware/authToken");
+require("../middleware/passport");
+const passport = require("passport");
 
 const {
   getTweet,
@@ -14,13 +15,34 @@ const handleLike = require("../controllers/tweet/likeController");
 const handlRetweet = require("../controllers/tweet/retweetController");
 
 router
-  .get("/tweet/user", authToken, getUserTweets)
-  .get("/tweet/:id", authToken, getTweet)
-  .get("/tweet", authToken, getAllTweets)
-  .post("/tweet", authToken, addNewTweet)
-  .put("/tweet/:id", authToken, updateTweet)
-  .delete("/tweet/:id", authToken, deleteTweet)
-  .put("/tweet/like/:id", authToken, handleLike)
-  .put("/tweet/retweet/:id", authToken, handlRetweet);
+
+  .get(
+    "/tweet/user",
+    passport.authenticate("jwt", { session: false }),
+    getUserTweets
+  )
+  .get("/tweet/:id", passport.authenticate("jwt", { session: false }), getTweet)
+  .get("/tweet", passport.authenticate("jwt", { session: false }), getAllTweets)
+  .post("/tweet", passport.authenticate("jwt", { session: false }), addNewTweet)
+  .put(
+    "/tweet/:id",
+    passport.authenticate("jwt", { session: false }),
+    updateTweet
+  )
+  .delete(
+    "/tweet/:id",
+    passport.authenticate("jwt", { session: false }),
+    deleteTweet
+  )
+  .put(
+    "/tweet/like/:id",
+    passport.authenticate("jwt", { session: false }),
+    handleLike
+  )
+  .put(
+    "/tweet/retweet/:id",
+    passport.authenticate("jwt", { session: false }),
+    handlRetweet
+  );
 
 module.exports = router;
