@@ -19,15 +19,7 @@ router
   .post("/", addNewTweet)
   .put("/:id", updateTweet)
   .delete("/:id", deleteTweet)
-  .put(
-    "/like/:id",
-
-    handleLike
-  )
-  .put(
-    "/retweet/:id",
-
-    handlRetweet
-  );
+  .post("/:id/like", handleLike)
+  .post("/:id/retweet", handlRetweet);
 
 module.exports = router;

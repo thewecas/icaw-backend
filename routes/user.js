@@ -7,6 +7,6 @@ const updatePassword = require("../controllers/user/updatePasswordController");
 const passport = require("passport");
 require("../middleware/passport");
 
-router.put("/", updatePassword).delete("/", deleteUser);
+router.put("/password", updatePassword).delete("/delete", deleteUser);
 
 module.exports = router;

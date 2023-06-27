@@ -44,16 +44,7 @@ const handleLogin = async (req, res) => {
     //create access token
     const accessToken = generateAccessToken(user);
 
-    //store accessToken in the cookie
-    res.cookie("jwt", accessToken, {
-      httpOnly: true,
-      sameSite: "None",
-      secure: true,
-      maxAge: 24 * 60 * 60 * 1000,
-    });
-
     return res.status(200).json({
-      ...user,
       accessToken: accessToken,
     });
   } catch (error) {

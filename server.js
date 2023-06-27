@@ -15,10 +15,14 @@ app.use(express.urlencoded());
 app.use(passport.initialize());
 
 //routes
-app.use("/auth", authRoutes);
-app.use("/user", passport.authenticate("jwt", { session: false }), userRoutes);
+app.use("/api/auth", authRoutes);
 app.use(
-  "/tweet",
+  "/api/user",
+  passport.authenticate("jwt", { session: false }),
+  userRoutes
+);
+app.use(
+  "/api/tweets",
   passport.authenticate("jwt", { session: false }),
   tweetRoutes
 );
