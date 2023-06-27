@@ -70,19 +70,19 @@ Before running the application, ensure you have the following installed:
 
 The following API endpoints are available:
 
-- `POST /api/auth/register`: Register a new user.
-- `POST /api/auth/login`: Log in an existing user.
-- `PUT /api/user/password`: Update the user's password.
-- `DELETE /api/user/delete`: Delete the user's account.
+- `POST /api/auth/register` : Register a new user.
+- `POST /api/auth/login` : Log in an existing user.
+- `PUT /api/user/password` : Update the user's password.
+- `DELETE /api/user/delete` : Delete the user's account.
   .
-- `GET /api/tweets/:id`: Get a single tweet.
-- `GET /api/tweets/user`: Get all tweets of the current user.
-- `GET /api/tweets`: Get all tweets.
-- `POST /api/tweets`: Create a new tweet.
-- `PUT /api/tweets/:id`: Update a tweet.
-- `DELETE /api/tweets/:id`: Delete a tweet.
-- `POST /api/tweets/:id/like`: Like a tweet.
-- `POST /api/tweets/:id/retweet`: Retweet a tweet.
+- `GET /api/tweets/:id` : Get a single tweet.
+- `GET /api/tweets/user` : Get all tweets of the current user.
+- `GET /api/tweets` : Get all tweets.
+- `POST /api/tweets` : Create a new tweet.
+- `PUT /api/tweets/:id` : Update a tweet.
+- `DELETE /api/tweets/:id` : Delete a tweet.
+- `POST /api/tweets/:id/like` : Like a tweet.
+- `POST /api/tweets/:id/retweet` : Retweet a tweet.
 
 ## Authentication
 
@@ -98,7 +98,7 @@ Input validation is performed using the Joi library. Requests are validated befo
 
 - `master+jwt` : Implemented the authentication using `jwt`
 
-- `master-userEdit` : Added option to update password & delete options
+- `master-userEdit` : Added option to update password & delete account
 
 - `master+passport` : Implemented authentication using `passportjs` and `jwt`
 
