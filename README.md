@@ -1,7 +1,5 @@
 # Twitter-like App
 
-### Latest code is available in `master-refactor` branch
-
 A Twitter-like application built with Node.js, Express.js, MongoDB, Passport.js, JWT authentication, and Joi input validation.
 
 ## Features
